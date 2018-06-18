@@ -1,0 +1,48 @@
+START
+
+
+
+- What's your name?
+* user name input (Glenn)
+
+- Hi Glenn, you're an enterprising cryptocurrency invenstor looking
+- make your mark on the crypto market. Rumor has it that the US gov will
+- be putting a ban on all crypto trading in 3 days, at which point owning crypto will be illegal.
+- Can you make 5 thousand dollars by that point to run away to Panama and avoid jail time?
+- Do you accept this mission?
+* yes/ no
+
+- Each turn counts as 1 day, the amount of money you have after your third turn is your final score.
+- You get a starting amount of one thousand dollars.
+
+* add a coin variable that takes in whatever the user chooses
+- Day One, a bright future awaits you as a Coin inverstor free from the tyranny of the gov,
+- Your current balance is: x worth of $1000
+
+(random text prompts, "oh you picked that?", etc./ about 3 of them)
+- Here are your available actions for today
+* .Shop_coin
+  - shows list of available Bitcoin sellers & their price
+  - can lead to 2nd command
+    -.buy_from
+      * select person you want to buy from
+      -.select_amount
+        * choose the amount
+
+(global method: help - re-prompts the last command given to you)
+
+- you now own 7 coins!
+- closing value at the end of the day was ["-923 of bitcoin", refine to be within certain ranges]
+
+(can code in additional scenerios, "elon musk bought mars coins/ kim jun blew up florida/california ceded/ all of south america now uses bitcoin")
+("oh no! Your coin is worth nothing, do you want to keep playing?")
+* yes/ no, depends on value of coin at start of the day
+
+user
+* coin property, connects to global value table
+* this is what gets affected by choices
+* Bank property, to check how much money you have
+- use runs bank command, "you currently have x amount of cash", then runs previous command "help"
+
+- cash/ coin affected by events "Hugo Chavez froze your bank account while you were in Ven."
+- have way to see high scores
