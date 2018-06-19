@@ -46,3 +46,10 @@ user
 
 - cash/ coin affected by events "Hugo Chavez froze your bank account while you were in Ven."
 - have way to see high scores
+
+
+CRUD
+- Create
+- Read 
+- Update
+- Delete
