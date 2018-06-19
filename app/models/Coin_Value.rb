@@ -1,4 +1,4 @@
-class Coin_Value < ActiveRecord::Base
+class CoinValue < ActiveRecord::Base
 
   has_many :sellers
 

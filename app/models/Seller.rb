@@ -3,5 +3,4 @@ class Seller < ActiveRecord::Base
   has_many :crypto_trades
   has_many :buyers, through: :crypto_trades
 
-
 end
