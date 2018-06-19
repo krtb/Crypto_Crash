@@ -1,0 +1,1 @@
+- Add coin_quantity column to Sellers 
