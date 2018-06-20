@@ -6,8 +6,23 @@ class Buyer < ActiveRecord::Base
   has_many :crypto_trades
   has_many :sellers, through: :crypto_trades
 
+
+
+  def my_cash
+    self.cash
+  end
+
   def trade(seller_id, coin_quantity)
-    CryptoTrade.create(seller_id: seller_id, buyer_id: self.id, coin_quantity: coin_quantity)
+    our_trade = CryptoTrade.new(seller_id: seller_id, buyer_id: self.id, coin_quantity: coin_quantity)
+
+    if our_trade.trade_value > my_cash
+      return "You're out of money!"
+      our_trade.delete
+    else
+      our_trade.save
+      self.increment(:cash, by = -our_trade.trade_value)
+      return "You've bought #{coin_quantity} #{find_seller_coin(our_trade).coin_name} at a price of $#{-1 * (-our_trade.trade_value)}."
+    end
   end
 
   def declare_assets(asset_name1 = "your soul", asset_name2 = "your house", asset_name3 = "your pet")
