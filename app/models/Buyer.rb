@@ -93,7 +93,11 @@ class Buyer < ActiveRecord::Base
     end
   end
 
-    # my_coins.each do |coin_string|
-    #   coin_string
-    # end
+  def view_coin_market
+    Seller.all.each do |seller|
+      puts "#{seller.id}. #{seller.name} is selling #{seller.coin_value.coin_name} at a price of $#{seller.coin_value.market_value} per coin."
+    end
+    return "Select your coin..."
+  end
+
 end

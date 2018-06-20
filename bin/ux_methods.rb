@@ -77,12 +77,36 @@ def turn_method
       if check.empty?
         puts "You have no coins!"
         turn_method
+      else
+        check
       end
+      turn_method
+    elsif turn == "Buy_Crypto_Coin"
+      current_player.view_coin_market
+      prompt = TTY::Prompt.new
+      answer = prompt.ask("Enter the number of the seller you wish to buy from. [Enter 'quit' to return to menu]")
+        if answer == "quit"
+          turn_method
+        elsif
+          if Seller.find(answer)
+            quant_answer = prompt.ask("Enter the quantity of coins you wish to purchase. [Enter 'quit' to return to menu]")
+            current_player.trade(answer, quant_answer)
+            turn_method
+          else
+            puts "Not a valid response. Please try again."
+            turn_method
+          end
+        end
     else turn == "End_Turn"
 
     end
 end
 
-def end_game
-  
+def calculate_score
+  coin_score = []
+  current_player.my_trades.each do |trade|
+    coin_score << current_player.find_coin_market_value(trade)
+  end
+  total = coin_score.inject{|sum, e| sum + e}
+  puts total
 end

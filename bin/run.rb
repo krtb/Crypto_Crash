@@ -6,3 +6,4 @@ main_menu
 name_getter
 asset_getter
 turn_method
+calculate_score
