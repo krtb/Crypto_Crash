@@ -4,3 +4,5 @@ require_relative 'ux_methods'
 welcome_message
 main_menu
 name_getter
+asset_getter
+turn_method

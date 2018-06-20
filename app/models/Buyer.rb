@@ -31,6 +31,13 @@ class Buyer < ActiveRecord::Base
     Asset.create(name: asset_name3.downcase, value: 500, buyer_id: self.id)
   end
 
+  def view_assets
+    asset_array = self.assets
+    asset_array.each do |asset|
+      puts "#{asset.name} worth $#{asset.value}"
+    end
+  end
+
   def sell_assets(asset_name)
     asset = Asset.find_by(name: asset_name.downcase)
     self.increment(:cash, by = asset.value)
