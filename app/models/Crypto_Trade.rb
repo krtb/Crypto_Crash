@@ -8,8 +8,17 @@ class CryptoTrade < ActiveRecord::Base
     my_seller.coin_value
   end
 
+  def my_coin_name
+    my_coin_value.coin_name
+  end
+
   def trade_value
     my_coin_value.market_value * self.coin_quantity
+  end
+
+  def self.coin_price(name)
+    coin = CoinValue.find_by(coin_name: name)
+    coin.market_value
   end
 
 end

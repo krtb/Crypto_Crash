@@ -54,11 +54,39 @@ class Buyer < ActiveRecord::Base
     find_seller_coin(crypto_trade_instance).market_value
   end
 
-  def my_coins
-    #will show you your coins
-    # Bitcoin: 6 coins at a price of $0 each = $0
+  def my_trades
+    CryptoTrade.all.select do |crypto_instance|
+      crypto_instance.buyer == self
+    end
   end
 
+  def my_coins
+    #will show you your coins
 
+    my_trades.map do |a_trade|
+      a_trade.my_coin_name
+    end.uniq
+  end
 
+  def my_wallet
+    # Bitcoin: 6 coins at a price of $0 each = $0
+    wallet_hash = {}
+    my_coins.each do |coin_string|
+      counter = 0
+      my_trades.each do |trade|
+        if trade.my_coin_name == coin_string
+          counter += trade.coin_quantity
+        end
+      end
+      wallet_hash[coin_string] = counter
+    end
+    # return wallet_hash
+    wallet_hash.each do |key, value|
+      return "#{key}: #{value} coins at a price of $#{value * (CryptoTrade.coin_price(key))}"
+    end
+  end
+
+    # my_coins.each do |coin_string|
+    #   coin_string
+    # end
 end
