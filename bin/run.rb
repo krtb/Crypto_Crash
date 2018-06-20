@@ -1,5 +1,6 @@
 require_relative '../config/environment'
+require_relative 'ux_methods'
 
-
-
-puts "HELLO WORLD"
+welcome_message
+main_menu
+name_getter
