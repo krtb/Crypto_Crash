@@ -89,7 +89,7 @@ class Buyer < ActiveRecord::Base
     end
     # return wallet_hash
     wallet_hash.each do |key, value|
-      return "#{key}: #{value} coins at a price of $#{value * (CryptoTrade.coin_price(key))}"
+      return "#{key}: #{value} coin(s) at a price of $#{value * (CryptoTrade.coin_price(key))}"
     end
   end
 

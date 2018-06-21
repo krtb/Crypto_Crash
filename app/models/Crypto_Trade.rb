@@ -1,3 +1,5 @@
+require 'pry'
+
 class CryptoTrade < ActiveRecord::Base
 
   belongs_to :seller
@@ -19,6 +21,15 @@ class CryptoTrade < ActiveRecord::Base
   def self.coin_price(name)
     coin = CoinValue.find_by(coin_name: name)
     coin.market_value
+  end
+
+  def self.all_trades_value
+    counter = 0
+    CryptoTrade.all.each do |trade|
+      value = trade.my_coin_value.market_value * trade.coin_quantity
+      counter += value
+    end
+    counter
   end
 
 end
