@@ -35,7 +35,7 @@ end
 def name_getter
   puts "What's your name?"
   user_name = gets.chomp
-  Buyer.create(name: user_name, cash: 1000, playing?: true, score: nil)
+  Buyer.create(name: user_name, cash: 1000, playing?: true, score: 0)
   "Hi, #{user_name}, let's get started!"
 end
 
@@ -73,14 +73,21 @@ def turn_method
       current_player.sell_assets(asset)
       turn_method
     elsif turn == "View_My_Coins"
-      check = current_player.my_wallet
-      if check.empty?
+      player_wallet = current_player.my_wallet
+      broken_strings = player_wallet.split
+
+      find_price = broken_strings.select do |word|
+        word == "price"
+      end
+      if find_price.join != "price"
+        sleep(1)
         puts "You have no coins!"
+        sleep(1)
         turn_method
       else
-        check
+        puts player_wallet
+        turn_method
       end
-      turn_method
     elsif turn == "Buy_Crypto_Coin"
       current_player.view_coin_market
       prompt = TTY::Prompt.new
@@ -108,5 +115,13 @@ def calculate_score
     coin_score << current_player.find_coin_market_value(trade)
   end
   total = coin_score.inject{|sum, e| sum + e}
-  puts total
+  total
+end
+
+def end_game
+  if calculate_score > 5000
+    puts "You win!"
+  else
+    puts "LOSERRRRR"
+  end
 end

@@ -22,14 +22,15 @@ randy_ripple = Seller.create(name: "Randy Ripple", coin_value_id: ripple.id)
 lisa_litecoin = Seller.create(name: "Lisa Litecoin", coin_value_id: litecoin.id)
 teddy_tron = Seller.create(name: "Teddy Tron", coin_value_id: tron.id)
 
-noah = Buyer.create(name: "Noah", cash: 1000, playing?: true, score: nil)
-kurt = Buyer.create(name: "Kurt", cash: 1000, playing?: true, score: nil)
-rickross = Buyer.create(name: "RickRoss", cash: 1000, playing?: true, score: nil)
-
-noah.trade(eddie_ethereum.id, 6)
-
-noah.declare_assets("my soul", "my feet", "puppies")
-noah.sell_assets("my soul")
+# noah = Buyer.create(name: "Noah", cash: 1000, playing?: true, score: nil)
+# kurt = Buyer.create(name: "Kurt", cash: 1000, playing?: true, score: nil)
+# rickross = Buyer.create(name: "RickRoss", cash: 1000, playing?: true, score: nil)
+#
+#noah.trade(eddie_ethereum.id, 1)
+# # did not work becuase were out of money
+#
+# noah.declare_assets("my soul", "my feet", "puppies")
+# noah.sell_assets("my soul")
 
 
 p "created the seeds"
