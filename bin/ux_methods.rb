@@ -20,12 +20,17 @@ def main_menu
 
   if answer == "Credits"
     puts "Created by Kurt Bauer and Noah Berman for
-    the Flatiron School's Module 1 Final Project. 
+    the Flatiron School's Module 1 Final Project.
     © 2018, all rights reserved."
     sleep(1)
     main_menu
   elsif answer == "High_Score"
-    puts "High_Score..."
+    high_score_array = Buyer.where(playing?: false).order(score: :desc).limit(5)
+    counter = 0
+    high_score_array.map do |score|
+      counter += 1
+      puts "#{counter}. name = #{score.name} // score = #{score.score}"
+    end
     sleep(1)
     main_menu
   else
@@ -49,19 +54,19 @@ end
 def introduction
   puts "**********************************************************************************"
   puts "The year is 2018. A dark cloud is spreading over Western Civilizatiion..."
-  sleep(2)
+  # sleep(2)
   puts "In a last-ditch effort to prop up the dollar, the US Government is planning
   on criminalizing the purchase, sale, and posession of all cryptocurrencies."
-  sleep(5)
+  # sleep(5)
   puts "You, a nascent crypto-trader, find this development untenable. You plan a
   quick escape to the crypto-haven of Canada, but need to raise $5,000 in 3 days for a ticket
   on the last flight."
-  sleep(5)
+  # sleep(5)
   puts "You have only $1,000 in cash and your last 3 posessions for barter."
-  sleep(3)
+  # sleep(3)
   puts "Can you raise $5,000 in cryptocurrencies and escape crypto-tyrrany?"
   puts "**********************************************************************************"
-  sleep(2)
+  # sleep(2)
 end
 
 def asset_getter
@@ -150,10 +155,41 @@ end
 
 def event
   # Randomly picks an event to occur that affects
-  event_id = rand(1..10)
-    # Event 1
+  event_id = rand(1..5)
+  binding.pry
+  if event_id == 1
+    CoinValue.all.each do |instance|
+      instance.update(market_value: (instance.market_value * 4))
+    end
     puts "Kim Jung Un pegged North Korea's currency to Litecoin! All crypto prices are increased by 400%"
-
+  elsif event_id == 2
+    puts "Zombies invade New York! Bowling Green is the first to be infected. Unrelatedly, Ethereum prices are discounted 50%."
+    CoinValue.all.each do |instance|
+      if instance.coin_name == "Ethereum"
+        instance.update(market_value: (instance.market_value / 2))
+      end
+    end
+  elsif event_id == 3
+    puts "Your mom (and all her friends) finally figure out what Bitcoin is. Demand for (and the price of) Bitcoin skyrockrets 200%."
+    CoinValue.all.each do |instance|
+      if instance.coin_name == "Bitcoin"
+        instance.update(market_value: (instance.market_value * 2))
+      end
+    end
+  elsif event_id == 4
+    puts "Facing the collapse of civilization, global investors start hoarding the Polish Zloty. Cryptocurrency prices fall 25%."
+    CoinValue.all.each do |instance|
+      instance.update(market_value: (instance.market_value * 4))
+    end
+  elsif event_id == 5
+    puts "You found $3,000 in your couch! Wow!"
+    current_player.increment!(:cash, by = 3000)
+  # when event_id == 6
+  # else event_id == 7
+# else
+# puts  " I got nothing"
+  end
+end
 
 def end_game
   if calculate_score > 5000
@@ -165,4 +201,5 @@ def end_game
     puts "LOSERRRRR"
     sleep(1)
   end
+  current_player.update(playing?: false)
 end

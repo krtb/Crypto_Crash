@@ -22,6 +22,9 @@ randy_ripple = Seller.create(name: "Randy Ripple", coin_value_id: ripple.id)
 lisa_litecoin = Seller.create(name: "Lisa Litecoin", coin_value_id: litecoin.id)
 teddy_tron = Seller.create(name: "Teddy Tron", coin_value_id: tron.id)
 
+almost_made_it = Buyer.create(name: "Noah", cash: 0, playing?: false, score: 4500)
+
+
 # noah = Buyer.create(name: "Noah", cash: 1000, playing?: true, score: nil)
 # kurt = Buyer.create(name: "Kurt", cash: 1000, playing?: true, score: nil)
 # rickross = Buyer.create(name: "RickRoss", cash: 1000, playing?: true, score: nil)
