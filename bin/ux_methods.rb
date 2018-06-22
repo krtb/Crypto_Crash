@@ -22,7 +22,7 @@ def welcome_message
 def main_menu
 
   prompt = TTY::Prompt.new
-  answer = prompt.select('Choose an option from the main menu:', %w(Play High_Score Credits))
+  answer = prompt.select('Choose an option from the main menu:', %w(Play High_Score Credits Quit))
 
   if answer == "Credits"
     pastel = Pastel.new
@@ -36,7 +36,7 @@ def main_menu
     main_menu
   elsif answer == "High_Score"
     pastel = Pastel.new
-    the_score = pastel.blue.inverse.detach
+    the_score = pastel.yellow.inverse.detach
 
     high_score_array = Buyer.where(playing?: false).order(score: :desc).limit(5)
     counter = 0
@@ -47,8 +47,15 @@ def main_menu
     end
     sleep(1)
     main_menu
+  elsif answer == "Quit"
+    pastel = Pastel.new
+    leave = pastel.magenta.bold.detach
+    puts leave.("Awww...  :/")
+    exit
   else
-    puts "Let's play!"
+    pastel = Pastel.new
+    play = pastel.magenta.bold.detach
+    puts play.("Let's play!")
     sleep(1)
   end
 end
@@ -122,19 +129,8 @@ def turn_method(day_integer)
           puts "Your wallet is empty"
           turn_method(day_integer)
         else
-          broken_strings = player_wallet.split
-          find_price = broken_strings.select do |word|
-            word == "price"
-          end
-          if find_price.join != "price"
-              sleep(1)
-              puts "You have no coins!"
-              sleep(1)
-              turn_method
-          else
-            puts player_wallet
+            player_wallet
             turn_method(day_integer)
-          end
         end
     elsif turn == "View_My_Cash"
       puts "You have $#{current_player.cash} in cash."
@@ -223,8 +219,6 @@ def end_game
   last_message = pastel.red.italic.detach
 
   if calculate_score > 5000
-    binding.pry
-
     sleep(1)
     puts last_message.("Game over! You win! Enjoy Canada!")
     sleep(1)

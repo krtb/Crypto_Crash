@@ -87,9 +87,9 @@ class Buyer < ActiveRecord::Base
       end
       wallet_hash[coin_string] = counter
     end
-    # return wallet_hash
+    # puts wallet_hash
     wallet_hash.each do |key, value|
-      return "#{key}: #{value} coin(s) at a price of $#{value * (CryptoTrade.coin_price(key))}"
+      puts "#{key}: #{value} coin(s) at a price of $#{value * (CryptoTrade.coin_price(key))}"
     end
   end
 
@@ -97,7 +97,7 @@ class Buyer < ActiveRecord::Base
     Seller.all.each do |seller|
       puts "#{seller.id}. #{seller.name} is selling #{seller.coin_value.coin_name} at a price of $#{seller.coin_value.market_value} per coin."
     end
-    return "Select your coin..."
+    puts "Select your coin..."
   end
 
 end
