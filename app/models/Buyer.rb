@@ -15,7 +15,7 @@ class Buyer < ActiveRecord::Base
   def trade(seller_id, coin_quantity)
     our_trade = CryptoTrade.new(seller_id: seller_id, buyer_id: self.id, coin_quantity: coin_quantity)
     if our_trade.trade_value > my_cash
-      return "You're out of money!"
+      puts "You're out of money!"
       our_trade.delete
     else
       our_trade.save

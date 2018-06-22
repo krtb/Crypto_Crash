@@ -68,8 +68,9 @@ end
 def introduction
   pastel = Pastel.new
   story = pastel.cyan.italic.detach
+  seperate = pastel.bright_yellow.bold.detach
 
-  puts "**********************************************************************************"
+  puts seperate.("**********************************************************************************")
   puts story.("The year is 2018. A dark cloud is spreading over Western Civilization...")
   # sleep(2)
   puts story.("In a last-ditch effort to prop up the dollar, the US Government is planning
@@ -82,7 +83,7 @@ def introduction
   puts story.("You have only $1,000 in cash and your last 3 posessions for barter.")
   # sleep(3)
   puts story.("Can you raise $5,000 in cryptocurrencies and escape crypto-tyrrany?")
-  puts "**********************************************************************************"
+  puts seperate.("**********************************************************************************")
   # sleep(2)
 end
 
@@ -160,7 +161,9 @@ def turn_method(day_integer)
 end
 
 def calculate_score
-  puts "Now calculating your final score..."
+  pastel = Pastel.new
+  calc = pastel.green.italic.detach
+  puts calc.("Now calculating your final score...")
   sleep(1)
   coin_score = []
   current_player.my_trades.each do |trade|
@@ -177,34 +180,36 @@ def calculate_score
 end
 
 def event
+  pastel = Pastel.new
+  scene = pastel.magenta.italic.detach
   # Randomly picks an event to occur that affects
   event_id = rand(1..5)
   if event_id == 1
     CoinValue.all.each do |instance|
       instance.update(market_value: (instance.market_value * 4))
     end
-    puts "Kim Jung Un pegged North Korea's currency to Litecoin! All crypto prices are increased by 400%"
+    puts scene.("Kim Jung Un pegged North Korea's currency to Litecoin! All crypto prices are increased by 400%")
   elsif event_id == 2
-    puts "Zombies invade New York! Bowling Green is the first to be infected. Unrelatedly, Ethereum prices are discounted 50%."
+    puts scene.("Zombies invade New York! Bowling Green is the first to be infected. Unrelatedly, Ethereum prices are discounted 50%.")
     CoinValue.all.each do |instance|
       if instance.coin_name == "Ethereum"
         instance.update(market_value: (instance.market_value / 2))
       end
     end
   elsif event_id == 3
-    puts "Your mom (and all her friends) finally figure out what Bitcoin is. Demand for (and the price of) Bitcoin skyrockrets 200%."
+    puts scene.("Your mom (and all her friends) finally figure out what Bitcoin is. Demand for (and the price of) Bitcoin skyrockrets 200%.")
     CoinValue.all.each do |instance|
       if instance.coin_name == "Bitcoin"
         instance.update(market_value: (instance.market_value * 2))
       end
     end
   elsif event_id == 4
-    puts "Facing the collapse of civilization, global investors start hoarding the Polish Zloty. Cryptocurrency prices fall 25%."
+    puts scene.("Facing the collapse of civilization, global investors start hoarding the Polish Zloty. Cryptocurrency prices fall 25%.")
     CoinValue.all.each do |instance|
       instance.update(market_value: (instance.market_value * 4))
     end
   elsif event_id == 5
-    puts "You found $3,000 in your couch! Wow!"
+    puts scene.("You found $3,000 in your couch! Wow!")
     current_player.increment!(:cash, by = 3000)
   # when event_id == 6
   # else event_id == 7
@@ -214,15 +219,18 @@ def event
 end
 
 def end_game
+  pastel = Pastel.new
+  last_message = pastel.red.italic.detach
+
   if calculate_score > 5000
     binding.pry
 
     sleep(1)
-    puts "Game over! You win! Enjoy Canada!"
+    puts last_message.("Game over! You win! Enjoy Canada!")
     sleep(1)
   else
     sleep(1)
-    puts "Game over! You are a LOSERRRRR and did not escape to Canada :("
+    puts last_message.("Game over! You are a LOSERRRRR and did not escape to Canada :(")
     sleep(1)
   end
 
