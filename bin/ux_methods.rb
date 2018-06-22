@@ -3,33 +3,47 @@ require_relative '../app/models/asset.rb'
 require_relative '../app/models/buyer.rb'
 require_relative '../app/models/seller.rb'
 require_relative '../app/models/crypto_trade.rb'
+# PASTEL COLORS
+# error    = pastel.red.bold.detach
+# puts error.('Error!')
 
 def welcome_message
-  puts " ██████╗██████╗ ██╗   ██╗██████╗ ████████╗ ██████╗          ██████╗██████╗  █████╗ ███████╗██╗  ██╗
+  pastel = Pastel.new
+  title = pastel.cyan.bold.detach
+  puts title.(" ██████╗██████╗ ██╗   ██╗██████╗ ████████╗ ██████╗          ██████╗██████╗  █████╗ ███████╗██╗  ██╗
 ██╔════╝██╔══██╗╚██╗ ██╔╝██╔══██╗╚══██╔══╝██╔═══██╗        ██╔════╝██╔══██╗██╔══██╗██╔════╝██║  ██║
 ██║     ██████╔╝ ╚████╔╝ ██████╔╝   ██║   ██║   ██║        ██║     ██████╔╝███████║███████╗███████║
 ██║     ██╔══██╗  ╚██╔╝  ██╔═══╝    ██║   ██║   ██║        ██║     ██╔══██╗██╔══██║╚════██║██╔══██║
 ╚██████╗██║  ██║   ██║   ██║        ██║   ╚██████╔╝███████╗╚██████╗██║  ██║██║  ██║███████║██║  ██║
  ╚═════╝╚═╝  ╚═╝   ╚═╝   ╚═╝        ╚═╝    ╚═════╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
                                                                                                    "
-end
+)end
 
 def main_menu
+
   prompt = TTY::Prompt.new
   answer = prompt.select('Choose an option from the main menu:', %w(Play High_Score Credits))
 
   if answer == "Credits"
-    puts "Created by Kurt Bauer and Noah Berman for
+    pastel = Pastel.new
+    credits = pastel.red.bold.detach
+
+
+    puts credits.("Created by Kurt Bauer and Noah Berman for
     the Flatiron School's Module 1 Final Project.
-    © 2018, all rights reserved."
+    © 2018, all rights reserved.")
     sleep(1)
     main_menu
   elsif answer == "High_Score"
+    pastel = Pastel.new
+    the_score = pastel.blue.inverse.detach
+
     high_score_array = Buyer.where(playing?: false).order(score: :desc).limit(5)
     counter = 0
     high_score_array.map do |score|
+
       counter += 1
-      puts "#{counter}. name = #{score.name} // score = #{score.score}"
+      puts the_score.("#{counter}. name = #{score.name} // score = #{score.score}")
     end
     sleep(1)
     main_menu
@@ -52,19 +66,22 @@ def current_player
 end
 
 def introduction
+  pastel = Pastel.new
+  story = pastel.cyan.italic.detach
+
   puts "**********************************************************************************"
-  puts "The year is 2018. A dark cloud is spreading over Western Civilizatiion..."
+  puts story.("The year is 2018. A dark cloud is spreading over Western Civilization...")
   # sleep(2)
-  puts "In a last-ditch effort to prop up the dollar, the US Government is planning
-  on criminalizing the purchase, sale, and posession of all cryptocurrencies."
+  puts story.("In a last-ditch effort to prop up the dollar, the US Government is planning
+  on criminalizing the purchase, sale, and posession of all cryptocurrencies.")
   # sleep(5)
-  puts "You, a nascent crypto-trader, find this development untenable. You plan a
+  puts story.("You, a nascent crypto-trader, find this development untenable. You plan a
   quick escape to the crypto-haven of Canada, but need to raise $5,000 in 3 days for a ticket
-  on the last flight."
+  on the last flight.")
   # sleep(5)
-  puts "You have only $1,000 in cash and your last 3 posessions for barter."
+  puts story.("You have only $1,000 in cash and your last 3 posessions for barter.")
   # sleep(3)
-  puts "Can you raise $5,000 in cryptocurrencies and escape crypto-tyrrany?"
+  puts story.("Can you raise $5,000 in cryptocurrencies and escape crypto-tyrrany?")
   puts "**********************************************************************************"
   # sleep(2)
 end
@@ -149,14 +166,19 @@ def calculate_score
   current_player.my_trades.each do |trade|
     coin_score << current_player.find_coin_market_value(trade)
   end
-  total = coin_score.inject{|sum, e| sum + e}
-  total
+    if coin_score.any?
+      total = coin_score.inject{|sum, e| sum + e}
+      coin_score = total
+    else
+      coin_score = 0
+    end
+  current_player.update(score: coin_score)
+  coin_score
 end
 
 def event
   # Randomly picks an event to occur that affects
   event_id = rand(1..5)
-  binding.pry
   if event_id == 1
     CoinValue.all.each do |instance|
       instance.update(market_value: (instance.market_value * 4))
@@ -193,13 +215,16 @@ end
 
 def end_game
   if calculate_score > 5000
+    binding.pry
+
     sleep(1)
-    puts "Game over! You win!"
+    puts "Game over! You win! Enjoy Canada!"
     sleep(1)
   else
     sleep(1)
-    puts "LOSERRRRR"
+    puts "Game over! You are a LOSERRRRR and did not escape to Canada :("
     sleep(1)
   end
+
   current_player.update(playing?: false)
 end
